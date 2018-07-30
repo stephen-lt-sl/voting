@@ -1,13 +1,13 @@
 <div>
   <div>
     <label>Question:
-      <input [(ngModel)]="poll.question" placeholder="What question will you ask?"/>
+      <input [(ngModel)]="question" placeholder="What question will you ask?"/>
     </label>
   </div>
   <div>
-    <label class="option" *ngFor="let pollOption of poll.pollOptions; let idx = index">Option {{idx + 1}}:
+    <label class="option" *ngFor="let option of options; let idx = index">Option {{idx + 1}}:
       <!-- Call 'blur' when Enter is pressed, as the element may be deleted causing blur to be retriggered invalidly -->
-      <input [(ngModel)]="poll.pollOptions[idx].optionText"
+      <input [(ngModel)]="options[idx]"
         (keyup.enter)="$event.target.blur()"
         (blur)="onUpdateOption(idx)"/>
     </label>

@@ -7,10 +7,8 @@ import { Poll } from '../models/poll';
   styleUrls: ['./create-poll.component.css']
 })
 export class CreatePollComponent implements OnInit {
-  @Input() poll: Poll = { question: '', pollOptions: [
-    { optionText: 'First option' },
-    { optionText: 'Second option' },
-  ] };
+  @Input() question: string;
+  @Input() options: string[] = [];
 
   constructor() { }
 
@@ -19,13 +17,13 @@ export class CreatePollComponent implements OnInit {
 
   addOption(optionText: string) {
     if (optionText !== '') {
-      this.poll.pollOptions.push({ id: this.poll.pollOptions.length, pollId: this.poll.id, optionText: optionText });
+      this.options.push(optionText);
     }
   }
 
   onUpdateOption(optionIdx: number) {
-    if (this.poll.pollOptions[optionIdx].optionText === '') {
-      this.poll.pollOptions.splice(optionIdx, 1);
+    if (this.options[optionIdx] === '') {
+      this.options.splice(optionIdx, 1);
     }
   }
 
