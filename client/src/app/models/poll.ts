@@ -1,7 +1,7 @@
 import { PollOption } from './poll-option';
 
 export class Poll {
-  id: number;
+  id?: number;
   question: string;
-  pollOptions?: PollOption[];
+  pollOptions: PollOption[];
 }

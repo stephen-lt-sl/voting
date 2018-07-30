@@ -1,7 +1,20 @@
 <div>
   <div>
     <label>Question:
-      <input [(ngModel)]="poll.question" placeholder="What question will the poll ask?"/>
+      <input [(ngModel)]="poll.question" placeholder="What question will you ask?"/>
+    </label>
+  </div>
+  <div>
+    <label class="option" *ngFor="let pollOption of poll.pollOptions; let idx = index">Option {{idx + 1}}:
+      <!-- Call 'blur' when Enter is pressed, as the element may be deleted causing blur to be retriggered invalidly -->
+      <input [(ngModel)]="poll.pollOptions[idx].optionText"
+        (keyup.enter)="$event.target.blur()"
+        (blur)="onUpdateOption(idx)"/>
+    </label>
+    <label>New option:
+      <input #nextOptionText
+        (keyup.enter)="addOption(nextOptionText.value); nextOptionText.value=''"
+        (blur)="addOption(nextOptionText.value); nextOptionText.value=''">
     </label>
   </div>
 </div>
