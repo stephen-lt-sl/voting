@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Poll } from '../models/poll';
+import { Observable } from '../../../../node_modules/rxjs';
+import { GetPollsService } from '../get-polls.service';
 
 @Component({
   selector: 'app-view-polls',
@@ -7,14 +9,12 @@ import { Poll } from '../models/poll';
   styleUrls: ['./view-polls.component.css']
 })
 export class ViewPollsComponent implements OnInit {
-  polls: Poll[] = [
-    { id: 0, question: 'What should we have for lunch?' },
-    { id: 1, question: 'Who is the coolest in the office?' },
-  ];
+  polls$: Observable<Poll[]>;
 
-  constructor() { }
+  constructor(private getPolls: GetPollsService) { }
 
   ngOnInit() {
+    this.polls$ = this.getPolls.getAllPolls();
   }
 
 }
