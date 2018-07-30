@@ -1,3 +1,7 @@
-<p>
-  view-polls works!
-</p>
+<ul class="items">
+  <li *ngFor="let poll of polls">
+    <a>
+      <span class="badge">{{ poll.id }}</span>{{ poll.question }}
+    </a>
+  </li>
+</ul>
