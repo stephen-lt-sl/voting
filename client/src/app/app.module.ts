@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { ViewPollsComponent } from './view-polls/view-polls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreatePollComponent,
+    ViewPollsComponent,
   ],
   imports: [
     BrowserModule,
