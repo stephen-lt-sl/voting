@@ -25,7 +25,7 @@ export class PollService {
   createPoll(question: string): Observable<string> {
     const createPollUrl = `${this.pollsApiUrl}`;
     return this.httpClient.post<Poll>(createPollUrl, { question: question }, httpOptions).pipe(
-      map(poll => `Create poll with id ${poll.id} and question ${poll.question}!`)
+      map(poll => `Create poll with id ${poll._id} and question ${poll.question}!`)
     );
   }
 }

@@ -1,7 +1,7 @@
 <ul class="items">
   <li *ngFor="let poll of polls$ | async">
     <a>
-      <span class="badge">{{ poll.id }}</span>{{ poll.question }}
+      <span class="badge">{{ poll._id }}</span>{{ poll.question }}
     </a>
   </li>
 </ul>

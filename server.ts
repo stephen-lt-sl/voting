@@ -4,10 +4,16 @@ import { join } from 'path';
 import * as http from 'http';
 import * as bodyParser from 'body-parser';
 
+import * as mongoose from 'mongoose';
+
 // Get our API routes
 import api from './server/routes/api';
 
+import { DatabaseConfig } from './server/config/database';
+
 const app = express();
+
+mongoose.connect(DatabaseConfig, { useNewUrlParser: true });
 
 // Parsers for POST data
 app.use(bodyParser.json());

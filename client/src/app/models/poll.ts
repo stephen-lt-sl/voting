@@ -1,4 +1,4 @@
 export class Poll {
-  id: number;
+  _id: string;
   question: string;
 }
