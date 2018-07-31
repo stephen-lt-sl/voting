@@ -1,8 +1,9 @@
 {
   "watch": [
     "server.ts",
-    "server/**/*.ts"
+    "server"
   ],
-  "ignore": ["server/**/*.spec.ts"],
+  "ext": "ts",
+  "ignore": ["*.spec.ts"],
   "exec": "ts-node ./server.ts"
 }
