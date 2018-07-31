@@ -1,11 +1,11 @@
 // Get dependencies
-const express = require('express');
-const path = require('path');
-const http = require('http');
-const bodyParser = require('body-parser');
+import * as express from 'express';
+import { join } from 'path';
+import * as http from 'http';
+import * as bodyParser from 'body-parser';
 
 // Get our API routes
-const api = require('./server/routes/api');
+import api from './server/routes/api';
 
 const app = express();
 
@@ -19,15 +19,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set our api routes
 app.use('/api', api);
 
-// Catch all other routes and return the index file
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist/index.html'));
-// });
+// Serve static files and index.html for other routes
+const CLIENT_DIST_FOLDER = join(process.cwd(), 'dist', 'client');
+app.get('*.*', express.static(CLIENT_DIST_FOLDER));
+app.get('*', (req, res) => {
+  res.sendFile(join(CLIENT_DIST_FOLDER, 'index.html'));
+});
 
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || '3000';
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.set('port', port);
 
 /**

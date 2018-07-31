@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/client/voting",
+            "outputPath": "dist/client",
             "index": "client/src/index.html",
             "main": "client/src/main.ts",
             "polyfills": "client/src/polyfills.ts",
@@ -91,6 +91,14 @@
             "exclude": [
               "**/node_modules/**"
             ]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
           }
         }
       }

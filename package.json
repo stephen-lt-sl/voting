@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
-    "serve": "ng serve --proxy-config proxy.config.json",
-    "serve-api": "nodemon server.js --watch server",
-    "build": "ng build",
+    "start": "concurrently \"npm run serve:api\" \"npm run serve:client\"",
+    "serve:client": "ng serve --proxy-config proxy.config.json",
+    "serve:api": "nodemon",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "ng build",
+    "build:server": "webpack --config webpack.server.config.js --progress --colors",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -27,6 +29,7 @@
     "body-parser": "^1.18.3",
     "core-js": "^2.5.4",
     "rxjs": "^6.0.0",
+    "ts-loader": "^4.4.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
