@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Poll } from '../models/poll';
-import { Observable } from '../../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 import { GetPollsService } from '../get-polls.service';
 
 @Component({

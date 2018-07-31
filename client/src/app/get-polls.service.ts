@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from '../../../node_modules/rxjs';
+import { Injectable, Inject, Optional } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { Poll } from './models/poll';
+import { APP_BASE_HREF } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetPollsService {
 
-  constructor() { }
+  private pollsApiUrl = 'api/polls';
+
+  constructor(private httpClient: HttpClient) { }
 
   getAllPolls(): Observable<Poll[]> {
-    return of([
-      { id: 0, question: 'What should we have for lunch?' },
-      { id: 1, question: 'Who is the coolest in the office?' },
-    ]);
+    const allPollsUrl = `${this.pollsApiUrl}/all`;
+    return this.httpClient.get<Poll[]>(allPollsUrl);
   }
 }
