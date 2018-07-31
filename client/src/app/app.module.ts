@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { ViewPollsComponent } from './view-polls/view-polls.component';
-import { GetPollsService } from './get-polls.service';
+import { PollService } from './poll.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { GetPollsService } from './get-polls.service';
     AppRoutingModule,
   ],
   providers: [
-    GetPollsService
+    PollService
   ],
   bootstrap: [AppComponent]
 })

@@ -17,4 +17,8 @@
         (blur)="addOption(nextOptionText.value); nextOptionText.value=''">
     </label>
   </div>
+  <button (click)="submitPoll()">Create your poll!</button>
+  <div >
+    {{ createResult | async }}
+  </div>
 </div>

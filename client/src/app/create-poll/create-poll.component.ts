@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Poll } from '../models/poll';
+import { PollService } from '../poll.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-poll',
@@ -9,8 +11,9 @@ import { Poll } from '../models/poll';
 export class CreatePollComponent implements OnInit {
   @Input() question: string;
   @Input() options: string[] = [];
+  createResult: Observable<string>;
 
-  constructor() { }
+  constructor(private pollService: PollService) { }
 
   ngOnInit() {
   }
@@ -25,6 +28,10 @@ export class CreatePollComponent implements OnInit {
     if (this.options[optionIdx] === '') {
       this.options.splice(optionIdx, 1);
     }
+  }
+
+  submitPoll() {
+      this.createResult = this.pollService.createPoll(this.question);
   }
 
 }

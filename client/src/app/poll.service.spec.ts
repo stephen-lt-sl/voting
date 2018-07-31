@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { GetPollsService } from './get-polls.service';
+import { PollService } from './poll.service';
 
 describe('GetPollsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GetPollsService]
+      providers: [PollService]
     });
   });
 
-  it('should be created', inject([GetPollsService], (service: GetPollsService) => {
+  it('should be created', inject([PollService], (service: PollService) => {
     expect(service).toBeTruthy();
   }));
 });
