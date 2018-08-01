@@ -8,12 +8,14 @@ import { CreatePollComponent } from './create-poll/create-poll.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { ViewPollsComponent } from './view-polls/view-polls.component';
 import { PollService } from './poll.service';
+import { ViewPollComponent } from './view-poll/view-poll.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreatePollComponent,
     ViewPollsComponent,
+    ViewPollComponent,
   ],
   imports: [
     BrowserModule,

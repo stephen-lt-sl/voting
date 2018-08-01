@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Poll } from '../models/poll';
 import { Observable } from 'rxjs';
 import { PollService } from '../poll.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-polls',
@@ -15,9 +14,7 @@ export class ViewPollsComponent implements OnInit {
   constructor(private pollService: PollService) { }
 
   ngOnInit() {
-    this.polls$ = this.pollService.getAllPolls().pipe(
-      map(polls => polls.map(poll => ({ _id: poll._id.substring(poll._id.length - 4), question: poll.question })))
-    );
+    this.polls$ = this.pollService.getAllPolls();
   }
 
 }

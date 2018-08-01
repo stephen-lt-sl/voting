@@ -1,7 +1,7 @@
 <ul class="items">
   <li *ngFor="let poll of polls$ | async">
-    <a>
-      <span class="badge">{{ poll._id }}</span>{{ poll.question }}
+    <a [routerLink]="['/view-poll', poll._id]">
+      <span class="badge">{{ poll._id | slice:-4 }}</span>{{ poll.question }}
     </a>
   </li>
 </ul>
