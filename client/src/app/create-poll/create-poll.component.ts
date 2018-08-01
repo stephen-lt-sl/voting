@@ -31,7 +31,7 @@ export class CreatePollComponent implements OnInit {
   }
 
   submitPoll() {
-      this.createResult = this.pollService.createPoll(this.question);
+      this.createResult = this.pollService.createPoll(this.question, this.options);
   }
 
 }

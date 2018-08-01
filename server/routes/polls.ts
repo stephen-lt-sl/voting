@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { IPoll } from '../interfaces/poll';
-import { getAllPolls, IPollModel, addPoll } from '../schemas/poll';
+import { getAllPolls, IPollModel, addPoll, Poll } from '../schemas/poll';
+import { PollOption, getOptionsForPoll } from '../schemas/poll-option';
+import { ObjectId } from '../../node_modules/@types/bson';
 
 const router = Router();
 
@@ -33,13 +35,34 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  // Await new db logic...
+router.get('/:pollId', (req, res) => {
+  const pollId: ObjectId = req.params.pollId;
+  const findPoll = Poll.findById(pollId).exec();
+  const findPollOptions = getOptionsForPoll(pollId);
+  Promise.all([findPoll, findPollOptions]).then(([foundPoll, foundPollOptions]) => {
+    if (foundPoll) {
+      foundPoll.options = foundPollOptions;
+      res.send(foundPoll);
+    } else {
+      res.sendStatus(404);
+    }
+  }).catch(err => {
+    res.json({success: false, message: `Failed to fetch polls. Error: ${err}`});
+  });
+});
 
+router.post('/', (req, res) => {
   const question: string = req.body.question;
+  const options: string[] = req.body.options || [];
   const newPoll = { question: question };
-  addPoll(newPoll).then(addedPoll => {
+  const createPoll = addPoll(newPoll);
+  const createPollOptions = createPoll.then(addedPoll => {
+    return PollOption.create(options.map(option => ({ pollId: addedPoll._id, optionText: option })));
+  });
+  Promise.all([createPoll, createPollOptions]).then(([addedPoll, addedPollOptions]) => {
     res.send(addedPoll);
+  }).catch(err => {
+    res.sendStatus(500);
   });
 });
 

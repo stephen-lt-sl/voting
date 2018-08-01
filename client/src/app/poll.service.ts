@@ -22,10 +22,16 @@ export class PollService {
     return this.httpClient.get<Poll[]>(allPollsUrl);
   }
 
-  createPoll(question: string): Observable<string> {
+  getPollDetails(pollId: string): Observable<Poll> {
+    const pollDetailsUrl = `${this.pollsApiUrl}/${pollId}`;
+    return this.httpClient.get<Poll>(pollDetailsUrl);
+  }
+
+  createPoll(question: string, options: string[]): Observable<string> {
     const createPollUrl = `${this.pollsApiUrl}`;
-    return this.httpClient.post<Poll>(createPollUrl, { question: question }, httpOptions).pipe(
-      map(poll => `Create poll with id ${poll._id} and question ${poll.question}!`)
+    const newPoll = { question: question, options: options };
+    return this.httpClient.post<Poll>(createPollUrl, newPoll, httpOptions).pipe(
+      map(poll => `Create poll with id ${poll._id} and question "${poll.question}"!`)
     );
   }
 }
