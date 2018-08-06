@@ -1,0 +1,9 @@
+<div>
+  <span>Logged in: {{isLoggedIn$ | async}}</span>
+  <div *ngIf="!(isLoggedIn$ | async)">
+    <button (click)="login()">Login!</button>
+  </div>
+  <div *ngIf="isLoggedIn$ | async">
+    <button (click)="logout()">Logout!</button>
+  </div>
+</div>
