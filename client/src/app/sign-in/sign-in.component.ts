@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
-import { Observable } from '../../../../node_modules/rxjs';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +12,7 @@ export class SignInComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private securityService: OidcSecurityService) { }
+  constructor(private securityService: OidcSecurityService, private httpClient: HttpClient) { }
 
   ngOnInit() {
     this.isLoggedIn$ = this.securityService.getIsAuthorized();

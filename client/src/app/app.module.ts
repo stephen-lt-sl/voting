@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
@@ -12,6 +12,7 @@ import { ViewPollComponent } from './view-poll/view-poll.component';
 
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration, AuthWellKnownEndpoints } from 'angular-auth-oidc-client';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { AuthInterceptor } from './auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,11 @@ import { SignInComponent } from './sign-in/sign-in.component';
   providers: [
     OidcSecurityService,
     PollService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
@@ -46,7 +52,7 @@ export class AppModule {
       openIdImplicitFlowConfiguration.redirect_url = 'http://localhost:4200';
       openIdImplicitFlowConfiguration.client_id = '944030115409-tvekc3cn2pedeskcm5m1rnt7epq2tjpc.apps.googleusercontent.com';
       openIdImplicitFlowConfiguration.response_type = 'id_token token';
-      openIdImplicitFlowConfiguration.scope = 'openid email profile';
+      openIdImplicitFlowConfiguration.scope = 'openid email';
       openIdImplicitFlowConfiguration.post_logout_redirect_uri = '/';
       openIdImplicitFlowConfiguration.post_login_route = '/';
       openIdImplicitFlowConfiguration.forbidden_route = '/forbidden';

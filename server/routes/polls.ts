@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getAllPolls, IPollModel, Poll } from '../schemas/poll';
 import { PollOption } from '../schemas/poll-option';
-import { ObjectId } from '../../node_modules/@types/bson';
+import { ObjectId } from 'bson';
 
 const router = Router();
 
