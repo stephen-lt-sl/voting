@@ -2,7 +2,7 @@
   <h2>{{poll.question}}</h2>
   <ul class="items">
     <li *ngFor="let option of poll.options; let i = index">
-      <a>
+      <a (click)="submitVote(option)">
         <span class="badge">{{ i }}</span>{{ option.optionText }}
       </a>
     </li>

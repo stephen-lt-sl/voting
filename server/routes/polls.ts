@@ -12,7 +12,7 @@ const mockPolls: IPollModel[] = [
     new PollOption({ optionText: 'Irrelevant.' })
   ]}),
   new Poll({ question: 'What should we have for lunch?', options: [
-    new PollOption({ optionText: '3bros' }),
+    new PollOption({ optionText: '3bros', voterIds: [] }),
     new PollOption({ optionText: 'mezze' }),
     new PollOption({ optionText: 'Irrelevant.' })
   ]}),

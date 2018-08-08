@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { Poll } from '../models/poll';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { PollOption } from '../models/poll-option';
+import { VoteService } from '../vote.service';
 
 @Component({
   selector: 'app-view-poll',
@@ -14,7 +16,7 @@ export class ViewPollComponent implements OnInit {
 
   poll$: Observable<Poll>;
 
-  constructor(private pollService: PollService, private route: ActivatedRoute) { }
+  constructor(private pollService: PollService, private route: ActivatedRoute, private voteService: VoteService) { }
 
   ngOnInit() {
     this.poll$ = this.route.paramMap.pipe(
@@ -28,4 +30,9 @@ export class ViewPollComponent implements OnInit {
     );
   }
 
+  submitVote(pollOption: PollOption) {
+    this.poll$.subscribe(poll => {
+      return this.voteService.submitVote(poll._id, pollOption._id).subscribe(result => console.log(result));
+    });
+  }
 }

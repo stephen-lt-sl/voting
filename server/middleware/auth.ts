@@ -38,8 +38,7 @@ export class VotingAuth {
         return authorizationToken !== undefined ?
           this.verifyToken(authorizationToken)
             .then(verifiedToken => {
-              console.log(`Verified token: ${JSON.stringify(verifiedToken)}`);
-              req.params.AuthenticatedUserId = verifiedToken;
+              res.locals.AuthenticatedUser = verifiedToken;
             }) :
           Promise.resolve();
       })

@@ -7,13 +7,13 @@ export interface IPollOptionModel extends IPollOption, Document {
 }
 
 export const PollOptionSchema: Schema = new Schema({
-  pollId: {
-    type: Schema.Types.ObjectId,
-    required: false,
-  },
   optionText: {
     type: Schema.Types.String,
     required: true,
+  },
+  voterIds: {
+    type: [Schema.Types.String],
+    required: false,
   }
 });
 

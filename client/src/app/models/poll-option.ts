@@ -1,8 +1,7 @@
-import { Vote } from './vote';
 
 export class PollOption {
-  id?: number;
-  pollId?: number;
+  _id: string;
+  pollId?: string;
   optionText: string;
-  votes?: Vote[];
+  votes?: string[];
 }
