@@ -11,6 +11,8 @@ export class VoteService {
   constructor(private httpClient: HttpClient) { }
 
   submitVote(pollId: string, pollOptionId: string) {
-    return this.httpClient.post<string>(`${this.votesApiUrl}`, { pollId: pollId, pollOptionId: pollOptionId });
+    return this.httpClient.post(`${this.votesApiUrl}`,
+    { pollId: pollId, pollOptionId: pollOptionId },
+    { responseType: 'text' });
   }
 }

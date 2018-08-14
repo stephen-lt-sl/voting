@@ -59,6 +59,7 @@ export class AppModule {
       openIdImplicitFlowConfiguration.unauthorized_route = 'unauthorized';
       openIdImplicitFlowConfiguration.log_console_debug_active = true;
       openIdImplicitFlowConfiguration.log_console_warning_active = true;
+      openIdImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 30;
 
       const authWellKnownEndpoints = new AuthWellKnownEndpoints();
       authWellKnownEndpoints.setWellKnownEndpoints(response);
