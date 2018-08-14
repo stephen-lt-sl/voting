@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PollService } from '../poll.service';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, empty } from 'rxjs';
 import { Poll } from '../models/poll';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, take } from 'rxjs/operators';
 import { PollOption } from '../models/poll-option';
 import { VoteService } from '../vote.service';
 import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
@@ -18,6 +18,8 @@ export class ViewPollComponent implements OnInit, OnDestroy {
   poll$: Observable<Poll>;
   triggerRefreshPoll$: BehaviorSubject<null>;
   currentlySelectedOption: string;
+
+  errorMessage: string;
 
   constructor(private pollService: PollService, private route: ActivatedRoute, private voteService: VoteService,
     private securityService: OidcSecurityService) {}
@@ -56,11 +58,19 @@ export class ViewPollComponent implements OnInit, OnDestroy {
   }
 
   submitVote(pollId: string, pollOption: PollOption) {
-    return this.voteService.submitVote(pollId, pollOption._id).subscribe(result => {
+    this.securityService.getIsAuthorized().pipe(
+      take(1),
+      switchMap(isAuthorized => {
+        if (!isAuthorized) {
+          this.errorMessage = 'Cannot vote without being signed in!';
+          return empty();
+        }
+        return this.voteService.submitVote(pollId, pollOption._id);
+      })
+    ).subscribe(result => {
       console.log(result);
-      // this.currentlySelectedOption = pollOption._id;
       this.triggerRefreshPoll$.next(null);
-    });
+    }, err => console.log(`Error: ${err}`), () => console.log('Complete!'));
   }
 
 }
