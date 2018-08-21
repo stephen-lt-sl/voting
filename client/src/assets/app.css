@@ -53,3 +53,16 @@
 .error {
   color: red;
 }
+
+.voters-list {
+  -webkit-transition: max-height 1s;
+  -moz-transition: max-height 1s;
+  -ms-transition: max-height 1s;
+  -o-transition: max-height 1s;
+  transition: max-height 1s;
+  overflow: hidden;
+  max-height: 0;
+}
+.voters-list.show {
+  max-height: 300px;
+}

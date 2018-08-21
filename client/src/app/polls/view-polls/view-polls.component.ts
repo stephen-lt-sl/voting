@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Poll } from '../models/poll';
+import { Poll } from '../../models/poll';
 import { Observable } from 'rxjs';
-import { PollService } from '../poll.service';
+import { PollService } from '../../poll.service';
 
 @Component({
   selector: 'app-view-polls',

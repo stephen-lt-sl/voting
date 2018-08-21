@@ -1,24 +1,17 @@
-<div>
-  <div>
-    <label>Question:
-      <input [(ngModel)]="question" placeholder="What question will you ask?"/>
-    </label>
-  </div>
-  <div>
-    <label class="option" *ngFor="let option of options; let idx = index">Option {{idx + 1}}:
-      <!-- Call 'blur' when Enter is pressed, as the element may be deleted causing blur to be retriggered invalidly -->
-      <input [(ngModel)]="options[idx]"
-        (keyup.enter)="$event.target.blur()"
-        (blur)="onUpdateOption(idx)"/>
-    </label>
-    <label>New option:
-      <input #nextOptionText
-        (keyup.enter)="addOption(nextOptionText.value); nextOptionText.value=''"
-        (blur)="addOption(nextOptionText.value); nextOptionText.value=''">
-    </label>
-  </div>
-  <button (click)="submitPoll()">Create your poll!</button>
-  <div >
-    {{ createResult | async }}
-  </div>
+<div style="display: flex; flex-direction: column;">
+  <mat-form-field>
+      <input matInput [(ngModel)]="question" placeholder="Question?"/>
+  </mat-form-field>
+  <mat-form-field *ngFor="let option of options; let idx = index">
+    <!-- Call 'blur' when Enter is pressed, as the element may be deleted causing blur to be retriggered invalidly -->
+    <input matInput placeholder="Option {{idx + 1}}" [(ngModel)]="options[idx]"
+      (keyup.enter)="$event.target.blur()"
+      (blur)="onUpdateOption(idx)"/>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="New option" #nextOptionText
+      (keyup.enter)="addOption(nextOptionText.value); nextOptionText.value=''"
+      (blur)="addOption(nextOptionText.value); nextOptionText.value=''">
+  </mat-form-field>
+  <button mat-button disabled="{{!pollIsValid()}}" (click)="submitPoll()">Create your poll!</button>
 </div>

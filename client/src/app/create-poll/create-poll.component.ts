@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Poll } from '../models/poll';
 import { PollService } from '../poll.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-poll',
@@ -13,7 +14,7 @@ export class CreatePollComponent implements OnInit {
   @Input() options: string[] = [];
   createResult: Observable<string>;
 
-  constructor(private pollService: PollService) { }
+  constructor(private pollService: PollService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -30,8 +31,17 @@ export class CreatePollComponent implements OnInit {
     }
   }
 
+  pollIsValid() {
+    return this.question !== undefined && this.question.length > 0;
+  }
+
   submitPoll() {
-      this.createResult = this.pollService.createPoll(this.question, this.options);
+    if (this.pollIsValid()) {
+      this.pollService.createPoll(this.question, this.options)
+        .subscribe(createdPoll => {
+          return this.router.navigate([`view-polls/${createdPoll._id}`]);
+        });
+    }
   }
 
 }

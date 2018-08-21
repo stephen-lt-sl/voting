@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PollService } from '../poll.service';
 import { Observable, of, BehaviorSubject, empty } from 'rxjs';
-import { Poll } from '../models/poll';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, tap, take } from 'rxjs/operators';
-import { PollOption } from '../models/poll-option';
-import { VoteService } from '../vote.service';
-import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
+import { PollOption } from '../../models/poll-option';
+import { VoteService } from '../../vote.service';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { GetPollsService, FullPollDetails } from '../get-polls.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-view-poll',
@@ -15,13 +15,13 @@ import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-
 })
 export class ViewPollComponent implements OnInit, OnDestroy {
 
-  poll$: Observable<Poll>;
+  poll$: Observable<FullPollDetails>;
   triggerRefreshPoll$: BehaviorSubject<null>;
   currentlySelectedOption: string;
 
   errorMessage: string;
 
-  constructor(private pollService: PollService, private route: ActivatedRoute, private voteService: VoteService,
+  constructor(private getPollsService: GetPollsService, private route: ActivatedRoute, private voteService: VoteService,
     private securityService: OidcSecurityService) {}
 
   ngOnInit() {
@@ -32,14 +32,14 @@ export class ViewPollComponent implements OnInit, OnDestroy {
           switchMap((params: ParamMap) => {
             const idParam = params.get('id');
             if (idParam) {
-              return this.pollService.getPollDetails(idParam);
+              return this.getPollsService.getPollDetails(idParam);
             }
             return of({ question: 'Poll not found', options: [] });
           })
         );
       }),
     tap(poll => {
-      this.securityService.getIsAuthorized().subscribe(isAuthorized => {
+      this.securityService.getIsAuthorized().pipe(take(1)).subscribe(isAuthorized => {
         if (poll.options === undefined || !isAuthorized) {
           return;
         }
@@ -70,7 +70,15 @@ export class ViewPollComponent implements OnInit, OnDestroy {
     ).subscribe(result => {
       console.log(result);
       this.triggerRefreshPoll$.next(null);
-    }, err => console.log(`Error: ${err}`), () => console.log('Complete!'));
+    }, err => console.log(`Error: ${JSON.stringify(err)}`));
+  }
+
+  getNamesForOption(users: any, pollOption: PollOption) {
+    const voterIds = pollOption.voterIds || [];
+    return voterIds.map(voterId => {
+     const user = users[voterId];
+     return user ? user.name : '';
+    }).join(', ');
   }
 
 }

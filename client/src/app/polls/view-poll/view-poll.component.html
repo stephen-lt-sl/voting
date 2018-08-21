@@ -1,0 +1,14 @@
+<div *ngIf="poll$ | async as poll">
+  <h2>{{poll.question}}</h2>
+  <ul class="items">
+    <div *ngFor="let option of poll.options; let i = index">
+      <li [ngClass]="{'selected': option._id === currentlySelectedOption}">
+        <a (click)="submitVote(poll._id, option)">
+          <span class="badge">{{ option.voterIds ? option.voterIds.length : 0 }}</span>{{ option.optionText }}
+        </a>
+      </li>
+      <span>{{getNamesForOption(poll.users, option)}}</span>
+    </div>
+  </ul>
+  <p class="error">{{ errorMessage }}</p>
+</div>

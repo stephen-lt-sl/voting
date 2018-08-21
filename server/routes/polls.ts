@@ -2,8 +2,12 @@ import { Router } from 'express';
 import { getAllPolls, IPollModel, Poll } from '../schemas/poll';
 import { PollOption } from '../schemas/poll-option';
 import { ObjectId } from 'bson';
+import { UserService } from '../services/user-service';
+import { User } from '../schemas/user';
+import * as _ from 'lodash';
 
 const router = Router();
+const userService = new UserService();
 
 const mockPolls: IPollModel[] = [
   new Poll({ question: 'How many shrimps do you have to eat?', options: [
@@ -49,8 +53,14 @@ router.get('/:pollId', (req, res) => {
 
   Poll.findById(pollId).exec().then(foundPoll => {
     if (foundPoll) {
-      console.log(`result: ${JSON.stringify(foundPoll)}`);
-      res.send(foundPoll);
+      const userIds = foundPoll.options
+        .map(option => option.voterIds !== undefined ? option.voterIds : [])
+        .reduce((a, b) => a.concat(b), []);
+      return User.find({ googleId: { $in: userIds }}).exec().then(users => {
+        const userMap = _.keyBy(users, user => user.googleId);
+        const fullPollDetails = Object.assign({ users: userMap }, foundPoll.toJSON());
+        res.send(fullPollDetails);
+      });
     } else {
       res.sendStatus(404);
     }
