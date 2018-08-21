@@ -1,0 +1,11 @@
+a {
+  text-decoration: none;
+}
+
+.poll-list-container {
+  padding: 30px;
+}
+
+.poll-card {
+  margin-bottom: 10px;
+}
